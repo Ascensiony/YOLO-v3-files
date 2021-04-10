@@ -60,7 +60,7 @@ class YOLODataset(Dataset):
         # Below assumes 3 scale predictions (as paper) and same num of anchors per scale
         targets = [torch.zeros((self.num_anchors // 3, S, S, 6)) for S in self.S]
         for box in bboxes:
-            iou_anchors = iou(torch.tensor(box[2:4]), self.anchors)
+            iou_anchors = iou(torch.tensor(box[2:4], dtype=torch.float32), self.anchors)
             anchor_indices = iou_anchors.argsort(descending=True, dim=0)
             x, y, width, height, class_label = box
             has_anchor = [False] * 3  # each scale should have one anchor
@@ -96,9 +96,9 @@ def test():
     transform = config.test_transforms
 
     dataset = YOLODataset(
-        "COCO/train.csv",
-        "COCO/images/images/",
-        "COCO/labels/labels_new/",
+        "PASCAL_VOC/train.csv",
+        "PASCAL_VOC/images/",
+        "PASCAL_VOC/labels/",
         S=[13, 26, 52],
         anchors=anchors,
         transform=transform,
