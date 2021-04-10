@@ -55,10 +55,10 @@ def train_fn(train_loader, model, optimizer, loss_fn, scaler, scaled_anchors):
         loop.set_postfix(loss=mean_loss)
         
 def valid_fn(train_eval_loader, model, loss_fn, scaled_anchors):
+    print("Validating Model =>")
+    
     loop = tqdm(train_eval_loader, leave=True)
     losses = []
-    
-    print("Validating Model =>")
     
     with torch.no_grad():
         for batch_idx, (x, y) in enumerate(loop):
@@ -84,7 +84,6 @@ def valid_fn(train_eval_loader, model, loss_fn, scaled_anchors):
             loop.set_postfix(loss=mean_loss) 
 
 
-
 def main():
     model = YOLOv3(num_classes=config.NUM_CLASSES).to(config.DEVICE)
     optimizer = optim.Adam(
@@ -101,6 +100,8 @@ def main():
         load_checkpoint(
             config.CHECKPOINT_FILE, model, optimizer, config.LEARNING_RATE
         )
+        print("loaded model")
+        
 
     scaled_anchors = (
         torch.tensor(config.ANCHORS)
@@ -108,18 +109,18 @@ def main():
     ).to(config.DEVICE)
 
     for epoch in range(config.NUM_EPOCHS):
+        print(f"\nEpoch [{epoch}]")
         #plot_couple_examples(model, test_loader, 0.6, 0.5, scaled_anchors)
         train_fn(train_loader, model, optimizer, loss_fn, scaler, scaled_anchors)
 
         #if config.SAVE_MODEL:
         #    save_checkpoint(model, optimizer, filename=f"checkpoint.pth.tar")
 
-        print(f"Currently epoch {epoch}")
         #print("On Train Eval loader:")
         #print("On Train loader:")
         #check_class_accuracy(model, train_loader, threshold=config.CONF_THRESHOLD)
 
-        if epoch > 0 and epoch % 3 == 0:
+        if epoch > 0 and epoch % 4 == 0:
             valid_fn(train_eval_loader, model, loss_fn, scaled_anchors)
             check_class_accuracy(model, test_loader, threshold=config.CONF_THRESHOLD)
             pred_boxes, true_boxes = get_evaluation_bboxes(
