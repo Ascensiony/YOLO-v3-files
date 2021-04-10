@@ -15,7 +15,7 @@ def seed_everything(seed=42):
     torch.backends.cudnn.benchmark = False
 
 
-DATASET = '/kaggle/input/voc-files/PASCAL_VOC/'
+DATASET = '/kaggle/input/voc-files/PASCAL_VOC'
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 # seed_everything()  # If you want deterministic behavior
 NUM_WORKERS = 4
