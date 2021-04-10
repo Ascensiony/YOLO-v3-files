@@ -55,7 +55,7 @@ def train_fn(train_loader, model, optimizer, loss_fn, scaler, scaled_anchors):
         loop.set_postfix(loss=mean_loss)
         
 def valid_fn(train_eval_loader, model, loss_fn, scaled_anchors):
-    print("Validating Model =>")
+    print("Validating Model =>\n")
     
     loop = tqdm(train_eval_loader, leave=True)
     losses = []
@@ -138,6 +138,8 @@ def main():
                 num_classes=config.NUM_CLASSES,
             )
             print(f"MAP: {mapval.item()}")
+            
+            print("\nnResuming Training\n")
             model.train()
 
 
