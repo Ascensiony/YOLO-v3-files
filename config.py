@@ -15,7 +15,7 @@ def seed_everything(seed=42):
     torch.backends.cudnn.benchmark = False
 
 
-DATASET = 'PASCAL_VOC/'
+DATASET = '/kaggle/input/voc-files/PASCAL_VOC/'
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 # seed_everything()  # If you want deterministic behavior
 NUM_WORKERS = 4
@@ -32,7 +32,7 @@ S = [IMAGE_SIZE // 32, IMAGE_SIZE // 16, IMAGE_SIZE // 8]
 PIN_MEMORY = True
 LOAD_MODEL = True
 SAVE_MODEL = True
-CHECKPOINT_FILE = "checkpoint.pth.tar"
+CHECKPOINT_FILE = "/kaggle/input/voc-files/checkpoint.pth.tar"
 IMG_DIR = DATASET + "/images/"
 LABEL_DIR = DATASET + "/labels/"
 
